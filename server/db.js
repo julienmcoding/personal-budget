@@ -1,24 +1,24 @@
 const enveloppes = [
     {
         id: 1,
-        name: 'rent',
+        title: 'rent',
         budget: 400
     },
     {
         id: 2,
-        name: 'groceries',
+        title: 'groceries',
         budget: 120 
     },
     {
         id: 3,
-        name: 'electricity',
+        title: 'electricity',
         budget: 45 
     }
 ];
 
 const isValidEnveloppe = req => {
-    if (!req.name || typeof req.name !== 'string') {
-        throw new Error ('Please enter a string for the enveloppe\'s name.');
+    if (!req.title || typeof req.title !== 'string') {
+        throw new Error ('Please enter a string for the enveloppe\'s title.');
     };
     if (!isNaN(parseFloat(req.budget)) && isFinite(req.budget)) {
         req.budget = Number(req.budget);

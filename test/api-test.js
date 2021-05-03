@@ -1,14 +1,20 @@
 const request = require('supertest');
-const {assert} = require('chai');
+const assert = require('chai').assert;
+const expect = require('chai').expect;
+const app = require('../server');
 
-const app = require('../app');
+describe('/api/enveloppes', () => {
 
-//Create an endpoint that sends a POST request in order to generate individual budget envelopes.
-describe('POST', () => {
-    it('create an endpoint that sends a POST request in order to generate individual budget envelopes', () => {
-        request(app)
-            .post()
-
+    describe('GET /enveloppes', () => {
+        
+        it('returns an array', () => {
+            return request(app)
+                .get('/api/enveloppes')
+                .expect(200)
+                .then((response) => {
+                    expect(response.body).to.be.an.instanceOf(Array);
+                });
+        });
     });
 });
 
