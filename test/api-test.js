@@ -5,7 +5,7 @@ const app = require('../server');
 
 describe('/api/enveloppes', () => {
 
-    describe('GET /enveloppes', () => {    
+    describe('GET /api/enveloppes', () => {    
         it('returns an array', () => {
             return request(app)
                 .get('/api/enveloppes')
@@ -17,15 +17,30 @@ describe('/api/enveloppes', () => {
     });
 
 
-    describe('POST /enveloppes', () => {
-        it('creates a new enveloppe', () => {
+    describe('POST /api/enveloppes', () => {
+        it('should add a new enveloppe if all supplied information is correct', () => {
+            let initialEnveloppesArray;
+            let newEnveloppeObject = {
+              title: 'Test',
+              budget: 100,
+            }
             return request(app)
-            .post('/api/enveloppes')
-            .expect(201)
-            .then((response) => {
-                expect(response.body).to.be.an.instanceOf(Array);
-            });
-        });
+              .get('/api/enveloppes')
+              .then((response) => {
+                initialEnveloppesArray = response.body;
+              })
+              .then(() => {
+                return request(app)
+                  .post('/api/enveloppes')
+                  .send(newEnveloppeObject)
+                  .expect(201);
+              })
+              .then((response) => response.body)
+              .then((createdEnveloppe) => {
+                newEnveloppeObject.id = createdEnveloppe.id;
+                expect(newEnveloppeObject).to.be.deep.equal(createdEnveloppe);
+              });
+          });
     });
 
 });
