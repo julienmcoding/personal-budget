@@ -23,7 +23,7 @@ const isValidEnveloppe = req => {
     if (!isNaN(parseFloat(req.budget)) && isFinite(req.budget)) {
         req.budget = Number(req.budget);
     } else {
-        throw new Error ('Please enter a number for budget.');
+        throw new Error ('Please enter a number for the budget.');
     };
     return true;
 };
@@ -48,9 +48,59 @@ const getEnveloppeById = id => {
     return enveloppe;
 };
 
+const updateBudget = (current, query) => {
+    if(!isNaN(query.budget)) {
+        req.budget = Number(query.budget);
+    } else {
+        throw new Error ('Please enter a number for the amount');
+    };
+    const enveloppeIndex = enveloppes.findIndex((el) => {
+        el.id === Number(id);
+    });
+    if (enveloppeIndex !== - 1) {
+        current.budget += req.budget;
+        return current;
+    } else {
+        return null;
+    };
+};
+
+const deleteEnveloppe = id => {
+    const enveloppeIndex = enveloppes.findIndex((el) => {
+        el.id === Number(id);
+    });
+    if (enveloppeIndex !== - 1) {
+        enveloppes.splice(enveloppeIndex, 1);
+        return true;
+    } else {
+        return false;
+    };
+};
+
+const getIndexById = (id) => {
+    return enveloppes.findIndex((element) => {
+      return element.id === Number(id);
+    });
+  };
+
+const transferEnveloppe = (from, amount, to) => {
+    let fromEnveloppe = getEnveloppeById(from);
+    let toEnveloppe = getEnveloppeById(to);
+    if(Number(amount) <= fromEnveloppe.budget) {
+        fromEnveloppe.budget -= Number(amount);
+        toEnveloppe += Number(amount);
+    } else {
+        throw new Error (`You cannot transfer more than ${fromEnveloppe.budget}`);
+    };
+};  
+
 module.exports = { 
     enveloppes,
     isValidEnveloppe,
     addEnveloppe,
-    getEnveloppeById
+    getEnveloppeById, 
+    updateBudget,
+    deleteEnveloppe,
+    getIndexById,
+    transferEnveloppe
  };
