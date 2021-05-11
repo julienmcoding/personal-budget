@@ -1,0 +1,79 @@
+body {
+    background-color: #454b5c;
+    color: rgb(42, 40, 40);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  nav {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  a {
+    color: #fff;
+  }
+  
+  nav a {
+    margin: 20px;
+    padding: 10px;
+  }
+  
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+  }
+  
+  input {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  button {
+    margin: 5px;
+    cursor: pointer;
+    border: 2px solid rgb(2, 2, 2);
+    background-color: #bd7df1;
+    color: rgb(8, 2, 2);
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #262927ab;
+    transition: background-color 0.2s;
+  }
+  
+  #quote-container {
+    padding: 10px;
+    width: 60%;
+  }
+  
+  .single-quote {
+    padding: 10px;
+  }
+  
+  .quote-text {
+    font-size: 1.3em;
+  }
+  
+  .quote-id {
+    color: black;
+    font-weight: bold;
+    font-size: 1.7em;
+  }
+  
+  .attribution {
+    font-style: italic;
+  }
