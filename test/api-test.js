@@ -5,8 +5,7 @@ const app = require('../server');
 
 describe('/api/enveloppes', () => {
 
-    describe('GET /enveloppes', () => {
-        
+    describe('GET /enveloppes', () => {    
         it('returns an array', () => {
             return request(app)
                 .get('/api/enveloppes')
@@ -16,5 +15,18 @@ describe('/api/enveloppes', () => {
                 });
         });
     });
+
+
+    describe('POST /enveloppes', () => {
+        it('creates a new enveloppe', () => {
+            return request(app)
+            .post('/api/enveloppes')
+            .expect(201)
+            .then((response) => {
+                expect(response.body).to.be.an.instanceOf(Array);
+            });
+        });
+    });
+
 });
 

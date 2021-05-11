@@ -28,8 +28,29 @@ const isValidEnveloppe = req => {
     return true;
 };
 
+const addEnveloppe = enveloppe => {
+    if(isValidEnveloppe(enveloppe)) {
+        let newId = enveloppes.length + 1;
+        const newEnveloppe = {
+            id: newId,
+            title: enveloppe.title,
+            budget: enveloppe.budget
+        }
+        enveloppes.push(newEnveloppe);
+        return enveloppes[enveloppes.length - 1];
+    };
+};
+
+const getEnveloppeById = id => {
+    const enveloppe = enveloppes.find(el => {
+        return el.id === Number(id);
+    });
+    return enveloppe;
+};
 
 module.exports = { 
     enveloppes,
     isValidEnveloppe,
+    addEnveloppe,
+    getEnveloppeById
  };
