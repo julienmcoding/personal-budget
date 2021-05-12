@@ -16,12 +16,12 @@ const enveloppes = [
     }
 ];
 
-const isValidEnveloppe = req => {
-    if (!req.title || typeof req.title !== 'string') {
+const isValidEnveloppe = item => {
+    if (!item.title || typeof item.title !== 'string') {
         throw new Error ('Please enter a string for the enveloppe\'s title.');
     };
-    if (!isNaN(parseFloat(req.budget)) && isFinite(req.budget)) {
-        req.budget = Number(req.budget);
+    if (!isNaN(parseFloat(item.budget)) && isFinite(item.budget)) {
+        item.budget = Number(item.budget);
     } else {
         throw new Error ('Please enter a number for the budget.');
     };
