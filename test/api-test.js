@@ -14,7 +14,21 @@ describe('/api', () => {
             expect(response.body).to.be.an.instanceOf(Array);
                 });
         });
+        it('returns an array of all enveloppes', () => {
+          return request(app)
+            .get('/api/enveloppes')
+            .expect(200)
+            .then((response) => {
+              response.body.forEach((enveloppe) => {
+                expect(enveloppe).to.have.ownProperty('id');
+                expect(enveloppe).to.have.ownProperty('title');
+                expect(enveloppe).to.have.ownProperty('budget');
+              });
+            });
+        });
     });
+
+
 
     describe('POST /api/enveloppes', () => {
       it('should add an enveloppe if all supplied information is correct', async () => {
@@ -42,45 +56,71 @@ describe('/api', () => {
       });
     });
 
+
+
     describe('GET /api/enveloppes/:enveloppeId', () => {
       it('returns a specific enveloppe', async () => {
         await request(app)
         .get('/api/enveloppes/1')
-        .expect(200);
-      });
-      it('returns an error if the enveloppe does\'nt exist', async () => {
-        await request(app)
-        .get('/api/enveloppes/52845')
-        .expect(404)
+        .expect(200)
         .then((response) => {
           const envelope = response.body;
           expect(envelope).to.be.an.instanceOf(Object);
           expect(envelope).to.not.be.an.instanceOf(Array);
         });
       });
+      it('returns a full enveloppe object', () => {
+        return request(app)
+        .get(`/api/enveloppes/1`)
+        .expect(200)
+        .then((response) => {
+          let enveloppe = response.body;
+          expect(enveloppe).to.have.ownProperty('id');
+          expect(enveloppe).to.have.ownProperty('title');
+          expect(enveloppe).to.have.ownProperty('budget');
+        });
+      });
+      it('returns the correct envelope', async () => {
+        await request(app)
+            .get('/api/envelopes/1')
+            .expect(200)
+            .then((response) => {
+                let envelope = response.body;
+                expect(envelope.id).to.be.an.equal('1');
+            });
+        });    
+      it('returns an error if the enveloppe doesn\'t exist', async () => {
+        await request(app)
+        .get('/api/enveloppes/52845')
+        .expect(404)
+      });
     })  
 
-/*    describe('POST /api/enveloppes/:enveloppeId', () => {
-      it('update the budget of a particular enveloppe', async () => {
+    /*describe('POST /api/enveloppes/:enveloppeId', () => {
+      it('add 100 to the budget of the enveloppe n°1', async () => {
         let initialEnveloppe;
-        let updatedEnveloppe;
+        let updatedEnveloppe = [{
+          id: 1,
+          title: 'rent',
+          budget: 500
+        }];
         return request(app)
           .get('/api/enveloppe/1')
           .then((response) => {
             initialEnveloppe = response.body
           })
           .then(() => {
-            updatedEnveloppe = Object.assign({}, initialEnveloppe, {amount: 850});
+            initialEnveloppe.budget += 100; 
             return request(app)
               .post('/api/enveloppes/1')
-              .send(updatedEnveloppe);
+              .send(initialEnveloppe);
           })
           .then((response) => {
             expect(response.body).to.be.deep.equal(updatedEnveloppe);
           });
       })
-    })
+    })*/
 
-*/
+
 });
 

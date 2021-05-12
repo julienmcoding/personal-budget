@@ -30,7 +30,7 @@ enveloppesRouter.get('/', (req, res) => {
     // POST /api/enveloppes to create a new enveloppe
 enveloppesRouter.post('/', (req, res) => {
     const title = req.body.title;
-    const budget = req.body.budget
+    const budget = req.body.budget;
     const newEnveloppe = addEnveloppe(title, budget);
     res.status(201).send(newEnveloppe);
 });
@@ -42,7 +42,8 @@ enveloppesRouter.get('/:enveloppeId', (req, res, next) => {
 
     // POST /api/enveloppes/:enveloppeId to update the amount of an enveloppe, by substracting
 enveloppesRouter.post('/:enveloppeId', (req, res, next) => {
-    const updateEnveloppe = updateBudget(req.enveloppe, req.query);
+    const budget = req.body.budget;
+    const updateEnveloppe = updateBudget(req.enveloppe, budget);
     res.send(updateEnveloppe);
 });    
 

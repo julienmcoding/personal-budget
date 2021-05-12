@@ -16,6 +16,12 @@ const enveloppes = [
     }
 ];
 
+const getIndexById = (id) => {
+    return enveloppes.findIndex((element) => {
+      return element.id === Number(id);
+    });
+  };
+
 const addEnveloppe = (title, budget) => {
     if(typeof title !== 'string' || typeof budget !== 'number') {
         throw new Error ('Please enter a valid title and a valid budget');
@@ -37,17 +43,13 @@ const getEnveloppeById = id => {
     return enveloppe;
 };
 
-const updateBudget = (current, query) => {
-    if(!isNaN(query.budget)) {
-        req.budget = Number(query.budget);
-    } else {
+const updateBudget = (current, updatedBudget) => {
+    /*if(typeof updatedBudget !== 'number') {
         throw new Error ('Please enter a number for the amount');
-    };
-    const enveloppeIndex = enveloppes.findIndex((el) => {
-        el.id === Number(id);
-    });
+    };*/
+    const enveloppeIndex = getIndexById(current.id);
     if (enveloppeIndex !== - 1) {
-        current.budget += req.budget;
+        current.budget += Number(updatedBudget);
         return current;
     } else {
         return null;
@@ -65,12 +67,6 @@ const deleteEnveloppe = id => {
         return false;
     };
 };
-
-const getIndexById = (id) => {
-    return enveloppes.findIndex((element) => {
-      return element.id === Number(id);
-    });
-  };
 
 const transferEnveloppe = (from, amount, to) => {
     let fromEnveloppe = getEnveloppeById(from);
