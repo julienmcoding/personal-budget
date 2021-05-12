@@ -16,29 +16,18 @@ const enveloppes = [
     }
 ];
 
-const isValidEnveloppe = item => {
-    if (!item.title || typeof item.title !== 'string') {
-        throw new Error ('Please enter a string for the enveloppe\'s title.');
+const addEnveloppe = (title, budget) => {
+    if(typeof title !== 'string' || typeof budget !== 'number') {
+        throw new Error ('Please enter a valid title and a valid budget');
     };
-    if (!isNaN(parseFloat(item.budget)) && isFinite(item.budget)) {
-        item.budget = Number(item.budget);
-    } else {
-        throw new Error ('Please enter a number for the budget.');
-    };
-    return true;
-};
-
-const addEnveloppe = enveloppe => {
-    if(isValidEnveloppe(enveloppe)) {
-        let newId = enveloppes.length + 1;
-        const newEnveloppe = {
-            id: newId,
-            title: enveloppe.title,
-            budget: enveloppe.budget
+    let newId = enveloppes.length + 1;
+    const newEnveloppe = {
+        id: newId,
+        title: title,
+        budget: budget
         }
         enveloppes.push(newEnveloppe);
         return enveloppes[enveloppes.length - 1];
-    };
 };
 
 const getEnveloppeById = id => {
@@ -96,7 +85,6 @@ const transferEnveloppe = (from, amount, to) => {
 
 module.exports = { 
     enveloppes,
-    isValidEnveloppe,
     addEnveloppe,
     getEnveloppeById, 
     updateBudget,

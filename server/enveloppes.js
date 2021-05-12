@@ -29,8 +29,9 @@ enveloppesRouter.get('/', (req, res) => {
 
     // POST /api/enveloppes to create a new enveloppe
 enveloppesRouter.post('/', (req, res) => {
-    const enveloppe = req.query;
-    const newEnveloppe = addEnveloppe(enveloppe);
+    const title = req.body.title;
+    const budget = req.body.budget
+    const newEnveloppe = addEnveloppe(title, budget);
     res.status(201).send(newEnveloppe);
 });
 
@@ -66,3 +67,4 @@ enveloppesRouter.post('/transfer/:from/:amount/:to', (req, res, next) => {
     const transfer = transferEnveloppe(from, amount, to);
     res.status(200).send(transfer);
 });    
+
