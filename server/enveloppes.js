@@ -53,10 +53,10 @@ enveloppesRouter.delete('/:enveloppeId', (req, res, next) => {
 });
 
     // POST /api/envelopes/transfer/:from/:to to transfer budget
-enveloppesRouter.post('/transfer/:from/:amount/:to', (req, res, next) => {
-    const from = req.params.from;
-    const amount = req.params.amount;
-    const to = req.params.to;
+enveloppesRouter.post('/transfer/:from/:to', (req, res, next) => {
+    const from = parseInt(req.params.from);
+    const to = parseInt(req.params.to);
+    const amount = req.body.amount;
     const transfer = transferEnveloppe(from, amount, to);
     res.status(200).send(transfer);
 });    

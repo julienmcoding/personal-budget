@@ -60,9 +60,7 @@ const updateBudget = (current, updatedBudget) => {
 };
 
 const deleteEnveloppe = id => {
-    const enveloppeIndex = enveloppes.findIndex((el) => {
-        el.id === Number(id);
-    });
+    const enveloppeIndex = getIndexById(id);
     if (enveloppeIndex !== - 1) {
         enveloppes.splice(enveloppeIndex, 1);
         return true;
@@ -72,12 +70,16 @@ const deleteEnveloppe = id => {
 };
 
 const transferEnveloppe = (from, amount, to) => {
-    let fromEnveloppe = getEnveloppeById(from);
-    let toEnveloppe = getEnveloppeById(to);
+    let fromEnveloppe = getIndexById(from);
+    let toEnveloppe = getIndexById(to);
+    if(fromEnveloppe === -1 || toEnveloppe === -1) {
+        throw new Error ('Please enter a valid id');
+    }
     if(Number(amount) <= fromEnveloppe.budget) {
-        fromEnveloppe.budget -= Number(amount);
-        toEnveloppe += Number(amount);
-    } else {
+        enveloppes[fromEnveloppe].budget -= Number(amount);
+        enveloppes[toEnveloppe].budget += Number(amount);
+        return [enveloppes[fromEnveloppe], enveloppes[toEnveloppe]];
+    } else if (Number(amount) > fromEnveloppe.budget) {
         throw new Error (`You cannot transfer more than ${fromEnveloppe.budget}`);
     };
 };  

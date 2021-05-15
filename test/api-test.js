@@ -97,7 +97,7 @@ describe('/api', () => {
     })  
 
     describe('POST /api/enveloppes/:enveloppeId', () => {
-      it('add 500 to the budget of the enveloppe n1 to make a total budget of 900', () => {
+      it('adds 500 to the budget of the enveloppe n1 to make a total budget of 900', () => {
         let initialEnveloppe;
         let updatedEnveloppeBudget;
         return request(app)
@@ -115,7 +115,7 @@ describe('/api', () => {
             expect(response.body.budget).to.be.deep.equal(900);
           });
       });
-      it('remove 200 to the budget of the enveloppe n1 to make a total budget of 700', () => {
+      it('removes 200 to the budget of the enveloppe n1 to make a total budget of 700', () => {
         let initialEnveloppe;
         let updatedEnveloppeBudget;
         return request(app)
@@ -133,29 +133,11 @@ describe('/api', () => {
             expect(response.body.budget).to.be.deep.equal(700);
           });
       });
-      it('throws an error if the new budget is negative', () => {
-        let initialEnveloppe;
-        let updatedEnveloppeBudget;
-        return request(app)
-          .get('/api/enveloppes/1')
-          .then((response) => {
-            initialEnveloppe = response.body
-          })
-          .then(() => {
-            updatedEnveloppeBudget = Object.assign({}, initialEnveloppe, {budget: -12200});
-            return request(app)
-              .post('/api/enveloppes/1')
-              .send(updatedEnveloppeBudget);
-          })
-          .then((response) => {
-            expect(400)
-          });
-      });
     });
 
 
     describe('DELETE /api/enveloppes/:enveloppeId', () => {
-      it('delete the correct enveloppe', async () => {
+      it('deletes the correct enveloppe', async () => {
         let initialEnveloppeArray;
         return request(app)
           .get('/api/enveloppes')
@@ -178,7 +160,7 @@ describe('/api', () => {
             expect(shouldBeDeletedEnveloppe).to.be.undefined;
           });
       });
-      it('throw a error if the id doesn\'t exist', async () => {
+      it('throws a error if the id doesn\'t exist', async () => {
         await request(app)
           .delete('/api/envelopes/458')
           .send()
@@ -187,28 +169,41 @@ describe('/api', () => {
     });
 
 
-    describe('POST api/enveloppes/transfer/:from/:amount/:to', () => {
-      it('transfer the good amount from the good enveloppe to the good one', () => {
-        let fromEnveloppe;
-        let toEnveloppe;
-        return request(app)
+    describe('POST api/enveloppes/transfer/:from/:to', () => {
+      it('transfers the good amount from the good enveloppe to the good one', async () => {
+        const fromEnveloppe = await request(app)
           .get('/api/enveloppes/1')
+          .expect(200)
           .then((response) => {
-            let fromEnveloppe = response.body;
-          })
-          .then(() => {
-            return request(app)
-            .get('/api/enveloppes/2')
-            .then((response) => {
-              let toEnveloppe = response.body;
-            })  
-          })
-          .then(() => {
-            return request(app)
-            .put('/api/enveloppes/transfer/1/100/2')
-            .send()
-            .expect(200);
-          })
+            return response.body;
+          });
+        const toEnveloppe = await request(app)
+          .get('/api/enveloppes/2')
+          .expect(200)
+          .then((response) => {
+            return response.body;
+          });  
+
+        await request(app)
+          .post('/api/enveloppes/transfer/1/2')
+          .send({amount: 100})
+          .expect(200);
+        
+        const newFromEnveloppe = await request(app)
+          .get('/api/enveloppes/1')
+          .expect(200)
+          .then((response) => {
+            return response.body;
+            });
+
+        const newtoEnveloppe = await request(app)
+        .get('/api/enveloppes/2')
+        .expect(200)
+        .then((response) => {
+          return response.body;
+            });
+        expect(fromEnveloppe.budget-100).to.be.equal(600);
+        expect(toEnveloppe.budget+100).to.be.equal(220);
       });
     });
 
