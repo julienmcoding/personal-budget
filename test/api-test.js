@@ -6,8 +6,8 @@ const app = require('../server');
 describe('/api', () => {
 
     describe('GET /api/enveloppes', () => {    
-        it('returns an array', async () => {
-          await request(app)
+        it('returns an array', () => {
+          return request(app)
           .get('/api/enveloppes')
           .expect(200)
           .then((response) => {
@@ -31,7 +31,7 @@ describe('/api', () => {
 
 
     describe('POST /api/enveloppes', () => {
-      it('should add an enveloppe if all supplied information is correct', async () => {
+      it('should add an enveloppe if all supplied information is correct', () => {
         let initialEnveloppeArray;
         let newEnveloppe = {
           title: 'Test',
@@ -59,8 +59,8 @@ describe('/api', () => {
 
 
     describe('GET /api/enveloppes/:enveloppeId', () => {
-      it('returns a specific enveloppe', async () => {
-        await request(app)
+      it('returns a specific enveloppe', () => {
+        return request(app)
         .get('/api/enveloppes/1')
         .expect(200)
         .then((response) => {
@@ -80,47 +80,137 @@ describe('/api', () => {
           expect(enveloppe).to.have.ownProperty('budget');
         });
       });
-      it('returns the correct envelope', async () => {
-        await request(app)
-            .get('/api/envelopes/1')
+      it('returns the correct enveloppe', () => {
+        return request(app)
+            .get('/api/enveloppes/1')
             .expect(200)
             .then((response) => {
-                let envelope = response.body;
-                expect(envelope.id).to.be.an.equal('1');
+                let enveloppe = response.body;
+                expect(enveloppe.id).to.be.an.equal(1);
             });
         });    
-      it('returns an error if the enveloppe doesn\'t exist', async () => {
-        await request(app)
+      it('returns an error if the enveloppe doesn\'t exist', () => {
+        return request(app)
         .get('/api/enveloppes/52845')
         .expect(404)
       });
     })  
 
-    /*describe('POST /api/enveloppes/:enveloppeId', () => {
-      it('add 100 to the budget of the enveloppe n°1', async () => {
+    describe('POST /api/enveloppes/:enveloppeId', () => {
+      it('add 500 to the budget of the enveloppe n1 to make a total budget of 900', () => {
         let initialEnveloppe;
-        let updatedEnveloppe = [{
-          id: 1,
-          title: 'rent',
-          budget: 500
-        }];
+        let updatedEnveloppeBudget;
         return request(app)
-          .get('/api/enveloppe/1')
+          .get('/api/enveloppes/1')
           .then((response) => {
             initialEnveloppe = response.body
           })
           .then(() => {
-            initialEnveloppe.budget += 100; 
+            updatedEnveloppeBudget = Object.assign({}, initialEnveloppe, {budget: 500});
             return request(app)
               .post('/api/enveloppes/1')
-              .send(initialEnveloppe);
+              .send(updatedEnveloppeBudget);
           })
           .then((response) => {
-            expect(response.body).to.be.deep.equal(updatedEnveloppe);
+            expect(response.body.budget).to.be.deep.equal(900);
           });
-      })
-    })*/
+      });
+      it('remove 200 to the budget of the enveloppe n1 to make a total budget of 700', () => {
+        let initialEnveloppe;
+        let updatedEnveloppeBudget;
+        return request(app)
+          .get('/api/enveloppes/1')
+          .then((response) => {
+            initialEnveloppe = response.body
+          })
+          .then(() => {
+            updatedEnveloppeBudget = Object.assign({}, initialEnveloppe, {budget: -200});
+            return request(app)
+              .post('/api/enveloppes/1')
+              .send(updatedEnveloppeBudget);
+          })
+          .then((response) => {
+            expect(response.body.budget).to.be.deep.equal(700);
+          });
+      });
+      it('throws an error if the new budget is negative', () => {
+        let initialEnveloppe;
+        let updatedEnveloppeBudget;
+        return request(app)
+          .get('/api/enveloppes/1')
+          .then((response) => {
+            initialEnveloppe = response.body
+          })
+          .then(() => {
+            updatedEnveloppeBudget = Object.assign({}, initialEnveloppe, {budget: -12200});
+            return request(app)
+              .post('/api/enveloppes/1')
+              .send(updatedEnveloppeBudget);
+          })
+          .then((response) => {
+            expect(400)
+          });
+      });
+    });
 
+
+    describe('DELETE /api/enveloppes/:enveloppeId', () => {
+      it('delete the correct enveloppe', async () => {
+        let initialEnveloppeArray;
+        return request(app)
+          .get('/api/enveloppes')
+          .then((response) => {
+            let initialEnveloppeArray = response.body;
+          })
+          .then(() => {
+            return request(app)
+              .delete('/api/enveloppes/1')
+              .expect(204);
+          })
+          .then(() => {
+            return request(app)
+              .get('/api/enveloppes');
+          })
+          .then((response) => response.body)
+          .then((afterDeleteEnveloppesArray) => {
+            expect(afterDeleteEnveloppesArray).to.not.be.deep.equal(initialEnveloppeArray);
+            let shouldBeDeletedEnveloppe = afterDeleteEnveloppesArray.find(el => el.id === '1');
+            expect(shouldBeDeletedEnveloppe).to.be.undefined;
+          });
+      });
+      it('throw a error if the id doesn\'t exist', async () => {
+        await request(app)
+          .delete('/api/envelopes/458')
+          .send()
+          .expect(404);
+      });
+    });
+
+
+    describe('POST api/enveloppes/transfer/:from/:amount/:to', () => {
+      it('transfer the good amount from the good enveloppe to the good one', () => {
+        let fromEnveloppe;
+        let toEnveloppe;
+        return request(app)
+          .get('/api/enveloppes/1')
+          .then((response) => {
+            let fromEnveloppe = response.body;
+          })
+          .then(() => {
+            return request(app)
+            .get('/api/enveloppes/2')
+            .then((response) => {
+              let toEnveloppe = response.body;
+            })  
+          })
+          .then(() => {
+            return request(app)
+            .put('/api/enveloppes/transfer/1/100/2')
+            .send()
+            .expect(200);
+          })
+      });
+    });
 
 });
 

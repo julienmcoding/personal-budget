@@ -44,9 +44,12 @@ const getEnveloppeById = id => {
 };
 
 const updateBudget = (current, updatedBudget) => {
-    /*if(typeof updatedBudget !== 'number') {
+    if(typeof updatedBudget !== 'number') {
         throw new Error ('Please enter a number for the amount');
-    };*/
+    };
+    if(updatedBudget + current.budget <= 0) {
+        throw new Error (`You cannot remove more than ${current.budget}` );
+    };
     const enveloppeIndex = getIndexById(current.id);
     if (enveloppeIndex !== - 1) {
         current.budget += Number(updatedBudget);

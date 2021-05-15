@@ -8,7 +8,6 @@ const {
     getEnveloppeById,
     updateBudget,
     deleteEnveloppe,
-    getIndexById,
     transferEnveloppe
 } = require('./db');
 
@@ -40,7 +39,7 @@ enveloppesRouter.get('/:enveloppeId', (req, res, next) => {
     res.send(req.enveloppe);
 });
 
-    // POST /api/enveloppes/:enveloppeId to update the amount of an enveloppe, by substracting
+    // POST /api/enveloppes/:enveloppeId to update the amount of an enveloppe, by adding or substracting
 enveloppesRouter.post('/:enveloppeId', (req, res, next) => {
     const budget = req.body.budget;
     const updateEnveloppe = updateBudget(req.enveloppe, budget);
@@ -49,15 +48,8 @@ enveloppesRouter.post('/:enveloppeId', (req, res, next) => {
 
     // DELETE /api/enveloppes/:enveloppeId to delete an enveloppe
 enveloppesRouter.delete('/:enveloppeId', (req, res, next) => {
-    //deleteEnveloppe(req.enveloppe);
-    //res.status(204).send(req.enveloppe);
-    const enveloppeIndex = getIndexById(req.params.id)
-    if(enveloppeIndex !== - 1) {
-      enveloppes.splice(enveloppeIndex, 1);
-      res.status(204).send();
-    } else {
-      res.status(404).send();
-    };
+    deleteEnveloppe(req.enveloppe);
+    res.status(204).send(req.enveloppe);
 });
 
     // POST /api/envelopes/transfer/:from/:to to transfer budget
