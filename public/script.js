@@ -23,7 +23,7 @@ const renderEnveloppes = (enveloppes = []) => {
       newEnveloppe.className = 'single-enveloppe';
       newEnveloppe.innerHTML = `<div class="enveloppe-id">~ ${enveloppe.id} ~</div>
       <div class="enveloppe-title">${enveloppe.title}</div>
-      <div class="enveloppe-budget"> ${enveloppe.budget}</div>`;
+      <div class="enveloppe-budget">$${enveloppe.budget}</div>`;
       enveloppeContainer.appendChild(newEnveloppe);
     });
   } else {
@@ -41,12 +41,13 @@ fetchAllButton.addEventListener('click', () => {
     }
   })
   .then(response => {
-    renderEnveloppes(response.enveloppes);
+    renderEnveloppes(response);
   });
 });
 
 
 fetchByIdButton.addEventListener('click', () => {
+  resetEnveloppes();
   const id = document.getElementById('id').value;
   fetch(`/api/enveloppes/${id}`)
   .then(response => {
@@ -57,6 +58,6 @@ fetchByIdButton.addEventListener('click', () => {
     }
   })
   .then(response => {
-    renderQuotes(response.enveloppes);
+    renderEnveloppes(response);
   });
 });

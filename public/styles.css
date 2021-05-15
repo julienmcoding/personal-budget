@@ -55,25 +55,29 @@ body {
     transition: background-color 0.2s;
   }
   
-  #quote-container {
+  #enveloppe-container {
     padding: 10px;
     width: 60%;
   }
-  
-  .single-quote {
-    padding: 10px;
+
+  #single-enveloppe {
+    padding: 20px;
   }
   
-  .quote-text {
+  .enveloppe-title {
     font-size: 1.3em;
+    color: aqua;
   }
   
-  .quote-id {
+  .enveloppe-id {
     color: black;
     font-weight: bold;
     font-size: 1.7em;
   }
   
-  .attribution {
+  .enveloppe-budget {
     font-style: italic;
+    color: aqua;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
   }
