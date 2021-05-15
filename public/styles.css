@@ -81,3 +81,8 @@ body {
     padding-bottom: 15px;
     margin-bottom: 15px;
   }
+
+  #new-enveloppe {
+    color: white;
+    text-align: center;
+  }
