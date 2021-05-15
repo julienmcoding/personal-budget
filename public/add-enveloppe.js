@@ -16,7 +16,7 @@ submitButton.addEventListener('click', () => {
     })
   })
   .then(response => response.json())
-  .then(({enveloppe}) => {
+  .then(() => {
     const newEnveloppe = document.createElement('div');
     newEnveloppe.innerHTML = `
     <h3>Congrats, your enveloppe was created!</h3>

@@ -44,20 +44,3 @@ fetchAllButton.addEventListener('click', () => {
     renderEnveloppes(response);
   });
 });
-
-
-fetchByIdButton.addEventListener('click', () => {
-  resetEnveloppes();
-  const id = document.getElementById('id').value;
-  fetch(`/api/enveloppes/${id}`)
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      renderError(response);
-    }
-  })
-  .then(response => {
-    renderEnveloppes(response);
-  });
-});
