@@ -3,6 +3,7 @@ A web application to manage your budget.
 
 ## Table of contents
 * [Description](#description)
+* [Project objectives](#objectives)
 * [Technology](#technology)
 * [Launch](#launch)
 * [How to use](*how-to-use)
@@ -11,6 +12,15 @@ A web application to manage your budget.
 ## Description
 **Context:** In this project, I have built a web application to store and manage your budget. 
 The main goal was to developp a functionning back-end server, I've added some front-end for the user to be able to manipulate the data.
+
+## Project Objectives
+
+ - Build an API using Node.js and Express
+ - Be able to create, read, update, and delete envelopes
+ - Create endpoint(s) to update envelope balances
+ - Use Git version control to keep track of your work
+ - Use Postman to test API endpoints
+ - Writing tests with Supertest 
 
 ## Technology
 Project is created with:
