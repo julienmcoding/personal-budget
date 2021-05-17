@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+require('./initDB')();
+
+
 app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
