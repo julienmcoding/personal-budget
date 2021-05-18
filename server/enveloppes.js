@@ -3,26 +3,8 @@ const pool = require('../db/db');
 
 module.exports = enveloppesRouter;
 
-/*const {
-    addEnveloppe,
-    getEnveloppeById,
-    updateBudget,
-    deleteEnveloppe,
-    transferEnveloppe
-} = require('./helpers');*/
-
 const enveloppes = require('./db');
 const { Pool } = require('pg');
-
-/*enveloppesRouter.param('enveloppeId', (req, res, next, id) => {
-    const enveloppe = getEnveloppeById(id);
-    if(enveloppe) {
-        req.enveloppe = enveloppe;
-        next();
-    } else {
-        res.status(404).send('This id doesn\'t exist');
-    };
-});*/
 
     // GET /api/enveloppes to get all enveloppes 
 enveloppesRouter.get('/', async (req, res) => {
