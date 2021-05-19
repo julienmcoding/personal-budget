@@ -3,14 +3,22 @@ const pool = require('../db/db');
 
 module.exports = enveloppesRouter;
 
-const enveloppes = require('./db');
 const { Pool } = require('pg');
 
     // GET /api/enveloppes to get all enveloppes 
 enveloppesRouter.get('/', async (req, res) => {
     try {
         const allEnveloppes = await pool.query('SELECT * FROM enveloppes');
-        res.status(200).json(allEnveloppes.rows);
+        if (allEnveloppes.rowCount < 1) {
+            return res.status(404).send({
+                message: "There are no enveloppes"
+            });
+        };
+        res.status(200).send({
+            status: 'Success',
+            message: 'Enveloppes information retrieved!',
+            data: allEnveloppes.rows,
+        });
     } catch (err) {
         console.error(err.message);
     };
@@ -22,7 +30,11 @@ enveloppesRouter.post('/', async (req, res) => {
         const { title, budget } = req.body;
         const newEnveloppe = await pool.query('INSERT INTO enveloppes (title, budget) VALUES ($1, $2) RETURNING *', 
         [title, budget]);
-        res.status(201).json(newEnveloppe.rows[0]);
+        res.status(201).send({
+            status: 'Sucess',
+            message: 'New enveloppe created!',
+            data: newEnveloppe.rows[0]
+        });
     } catch (error) {
         console.error(error.message);
     };
@@ -33,7 +45,16 @@ enveloppesRouter.get('/:enveloppeId', async (req, res) => {
     try {
         const { enveloppeId } = req.params;
         const anEnveloppe = await pool.query('SELECT * FROM enveloppes WHERE id = $1', [enveloppeId]);
-        res.status(200).json(anEnveloppe.rows[0]);
+        if (anEnveloppe.rowCount < 1) {
+            return res.status(404).send({
+                message: "There is no enveloppe with this id"
+            });
+        };
+        res.status(200).send({
+            status: 'Sucess',
+            message: 'Enveloppe information retrieved!',
+            data: anEnveloppe.rows[0]
+        });
     } catch (error) {
         console.error(error.message);
     };
@@ -46,7 +67,11 @@ enveloppesRouter.put('/:enveloppeId', async (req, res) => {
         const { title, budget } = req.body;
         const updatedEnveloppe = await pool.query('UPDATE enveloppes SET title = $1, budget = $2 WHERE id = $3', 
         [title, budget, enveloppeId]);
-        res.status(200).json(`Enveloppe number ${enveloppeId} has been successfully updated!`);
+        res.status(200).send({
+            status: 'Sucess',
+            message: 'The enveloppe has been updated!',
+            data: updatedEnveloppe.rows[0]
+        });
     } catch (error) {
         console.error(error.message);
     };
@@ -56,8 +81,14 @@ enveloppesRouter.put('/:enveloppeId', async (req, res) => {
 enveloppesRouter.delete('/:enveloppeId', async (req, res) => {
     try {
         const { enveloppeId } = req.params;
+        const findEnv = await pool.query('SELECT * FROM enveloppes WHERE id = $1', [enveloppeId]);
+        if (findEnv.rowCount < 1) {
+            return res.status(404).send({
+                message: "There is no enveloppe with this id"
+            });
+        };
         const deletedEnveloppe = await pool.query('DELETE FROM enveloppes WHERE id = $1', [enveloppeId]);
-        res.json(`Enveloppe number ${enveloppeId} has been successfully deleted! `); 
+        res.sendStatus(204); 
     } catch (error) {
         console.error(error.message);
     };
