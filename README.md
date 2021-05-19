@@ -32,12 +32,30 @@ Project is created with:
  - CSS
  
 ## Launch
-Download the files and extract them in a file.
-To run the server, be sure to have node installed: 
-```
-node server.js
-```
-And visit **localhost:3000** in your browser to interact with the front-end.
+Download the files and extract them in a folder.
+To run the server, be sure to have node installed.
+Run 'npm install', then 'npm start' 
+
+Once the app is running locally, you can access the API at `http://localhost:3000/`
+
+## Testing with Swagger
+Swagger documentation and testing available at `http://localhost:3000/api/docs`
+
+### Envelopes:
+----
+ - Retrieve enveloppes using `GET /api/enveloppes`
+ - Retrieve a single enveloppe using `GET /api/enveloppes/{id}`
+ - Create an enveloppe using `POST /api/enveloppes`
+ - Update an enveloppe using `PUT /api/enveloppes/{id}`
+ - Delete an enveloppe using `DELETE /api/enveloppes/{id}`
+ - Transfer an amount from a specific enveloppe to another one using `POST /api//enveloppes/transfer/{from}/{to}`
+
+### Transactions:
+___
+ - Retrieve transactions using `GET /api/transactions`
+ - Retrieve a single transaction using `GET /api/transactions/{id}`
+ - Update a transaction using `PUT /api/transactions/{id}`
+ - Delete an transaction using `DELETE /api/transactions/{id}`
 
 ## How to use
 You can get all the enveloppes from the home page.
