@@ -5,7 +5,8 @@ module.exports = enveloppesRouter;
 
 const { Pool } = require('pg');
 
-    // GET /api/enveloppes to get all enveloppes 
+//@info get all enveloppes
+//@route GET /api/enveloppes
 enveloppesRouter.get('/', async (req, res) => {
     try {
         const allEnveloppes = await pool.query('SELECT * FROM enveloppes');
@@ -24,7 +25,8 @@ enveloppesRouter.get('/', async (req, res) => {
     };
 });
 
-    // POST /api/enveloppes to create a new enveloppe
+//@info create a new enveloppe
+//@route POST /api/enveloppes
 enveloppesRouter.post('/', async (req, res) => {
     try {
         const { title, budget } = req.body;
@@ -40,7 +42,8 @@ enveloppesRouter.post('/', async (req, res) => {
     };
 });
 
-    // GET /api/enveloppes/:enveloppeId to get a particular enveloppe
+//@info get a specific enveloppe
+//@route GET /api/enveloppes/:enveloppeId
 enveloppesRouter.get('/:enveloppeId', async (req, res) => {
     try {
         const { enveloppeId } = req.params;
@@ -60,7 +63,8 @@ enveloppesRouter.get('/:enveloppeId', async (req, res) => {
     };
 });
 
-    // PUT /api/enveloppes/:enveloppeId to update the amount of an enveloppe, by adding or substracting
+//@info to update the budget of an enveloppe, by adding or substracting
+//@route PUT /api/enveloppes/:enveloppeId
 enveloppesRouter.put('/:enveloppeId', async (req, res) => {
     try {
         const { enveloppeId } = req.params;
@@ -77,7 +81,8 @@ enveloppesRouter.put('/:enveloppeId', async (req, res) => {
     };
 });    
 
-    // DELETE /api/enveloppes/:enveloppeId to delete an enveloppe
+//@info to delete an enveloppe
+//@route DELETE /api/enveloppes/:enveloppeId
 enveloppesRouter.delete('/:enveloppeId', async (req, res) => {
     try {
         const { enveloppeId } = req.params;
@@ -94,7 +99,8 @@ enveloppesRouter.delete('/:enveloppeId', async (req, res) => {
     };
 });
 
-    // POST /api/envelopes/transfer/:from/:to to transfer budget
+//@info to transfer a budget from a specific enveloppe to another one
+//@route POST /api/envelopes/transfer/:from/:to
 enveloppesRouter.post('/transfer/:from/:to', async (req, res) => {
     try {
         const { from, to } = req.params;

@@ -6,8 +6,8 @@ module.exports = transactionsRouter;
 
 const { Pool } = require('pg');
 
-
-    // GET /api/transactions to get all transactions
+//@info get all transactions
+//@route GET /api/transactions
 transactionsRouter.get('/', async (req, res) => {
     try {
         const allTransactions = await pool.query('SELECT * FROM transactions');
@@ -26,7 +26,8 @@ transactionsRouter.get('/', async (req, res) => {
     };
 });
 
-    // POST /api/transactions to create a new transaction
+//@info to create a new transaction, which will impact the budget of a specific enveloppe
+//@route POST /api/transactions
 transactionsRouter.post('/', async (req, res) => {
     try {
         const { description, payment_amount, enveloppe_id } = req.body;
@@ -54,7 +55,8 @@ transactionsRouter.post('/', async (req, res) => {
     };
 });
 
-    // GET /api/transactions/:transactionId to get a particular transaction
+//@info to get a specific transaction
+//@route GET /api/transactions/:transactionId
 transactionsRouter.get('/:transactionId', async (req, res) => {
     try {
         const { transactionId } = req.params;
@@ -74,11 +76,12 @@ transactionsRouter.get('/:transactionId', async (req, res) => {
     };
 });  
 
-    // PUT /api/transactions/:transactionId to update the amount of an transaction, and updating the enveloppes
+//@info to update the amount of an transaction, and updating the enveloppes
+//@route PUT /api/transactions/:transactionId
 transactionsRouter.put('/:transactionId', async (req, res) => {
     try {
         const { transactionId } = req.params;
-        const { description, payment_amount, enveloppe_id } = req.body;
+        const { description, payment_amount } = req.body;
         await pool.query('BEGIN');
         const transaction = await pool.query('SELECT * FROM transactions WHERE id = $1', [transactionId]);
         if (transaction.rowCount < 1) {
@@ -104,7 +107,8 @@ transactionsRouter.put('/:transactionId', async (req, res) => {
     };
 });  
 
-    // DELETE /api/transactions/:transactionId to delete an transaction
+//@info to delete a transaction
+//@route DELETE /api/transactions/:transactionId
 transactionsRouter.delete('/:transactionId', async (req, res) => {
     try {
         const { transactionId } = req.params;
