@@ -24,7 +24,7 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    apis: ['./server/routeEnveloppes.js', './server/routeTransactions.js'],
+    apis: ['./server/enveloppes.js', './server/transactions.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
