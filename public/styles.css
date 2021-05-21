@@ -86,3 +86,17 @@ body {
     color: white;
     text-align: center;
   }
+
+  .description {
+    color: black;
+    margin: auto;
+    width: 70%;
+    text-align: center;
+    font-size: 1.5em;
+  }
+
+  .info-links {
+    color:rgb(39, 37, 37);
+    text-decoration: underline;
+    font-size: 1.2em;
+  }

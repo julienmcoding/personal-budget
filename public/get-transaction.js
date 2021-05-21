@@ -16,22 +16,23 @@ const renderError = response => {
 const renderEnveloppes = (enveloppes = [{}]) => {
   resetEnveloppes();
   if (enveloppes.length > 0) {
-    enveloppes.forEach(enveloppe => {
+    enveloppes.forEach(transaction => {
       const newEnveloppe = document.createElement('div');
       newEnveloppe.className = 'single-enveloppe';
-      newEnveloppe.innerHTML = `<div class="enveloppe-id">~ ${enveloppe.id} ~</div>
-      <div class="enveloppe-title">${enveloppe.title}</div>
-      <div class="enveloppe-budget">$${enveloppe.budget}</div>`;
+      newEnveloppe.innerHTML = `<div class="enveloppe-id">~Transaction's id:  ${transaction.id} ~</div>
+      <div class="enveloppe-title">Description:  ${transaction.description}</div>
+      <div class="enveloppe-title">Enveloppe's id:  ${transaction.enveloppe_id}</div>
+      <div class="enveloppe-budget">Payment:   $${transaction.payment_amount}</div>`;
       enveloppeContainer.appendChild(newEnveloppe);
     });
   } else {
-    enveloppeContainer.innerHTML = '<p>Your request returned no enveloppes.</p>';
+    enveloppeContainer.innerHTML = '<p>Your request returned no transactions.</p>';
   };
 };
 
 
 fetchAllButtonEnv.addEventListener('click', () => {
-  fetch('/api/enveloppes')
+  fetch('/api/transactions')
   .then(response => {
     if (response.ok) {
       return response.json();
