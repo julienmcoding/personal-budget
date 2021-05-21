@@ -11,7 +11,7 @@ submitButton.addEventListener('click', () => {
     const newEnveloppe = document.createElement('div');
     newEnveloppe.innerHTML = `
     <h3>Congrats, your enveloppe was deleted!</h3>
-    <p>Go to the <a href="index.html">home page</a> to request and view all enveloppes.</p>
+    <p>Go to the <a href="../index.html">home page</a> to request and view all enveloppes.</p>
     `
     newEnveloppeContainer.appendChild(newEnveloppe);
   });
