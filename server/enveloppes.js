@@ -21,7 +21,7 @@ const { Pool } = require('pg');
  */
  enveloppesRouter.get('/', async (req, res) => {
     try {
-        const allEnveloppes = await pool.query('SELECT * FROM enveloppes');
+        const allEnveloppes = await pool.query('SELECT * FROM enveloppes ORDER BY id');
         if (allEnveloppes.rowCount < 1) {
             return res.status(404).send({
                 message: "There are no enveloppes"

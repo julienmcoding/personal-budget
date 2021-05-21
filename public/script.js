@@ -15,7 +15,7 @@ const renderError = response => {
 <p>${response.statusText}</p>`;
 }
 
-const renderEnveloppes = (enveloppes = []) => {
+const renderEnveloppes = (enveloppes = [{}]) => {
   resetEnveloppes();
   if (enveloppes.length > 0) {
     enveloppes.forEach(enveloppe => {
@@ -41,6 +41,7 @@ fetchAllButton.addEventListener('click', () => {
     }
   })
   .then(response => {
-    renderEnveloppes(response);
+    let enveloppes = response.data;
+    renderEnveloppes(enveloppes);
   });
 });
