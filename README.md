@@ -12,7 +12,6 @@ A web application to manage your budget.
 ## Description
 **Context:** In this project, I have built a web application to store and manage your budget. 
 The main goal was to developp a functionning back-end server, I've added some front-end for the user to be able to manipulate the data.
-While the back is working, I am still working on the front to give more command to the user.
 
 ## Project Objectives
 
@@ -30,6 +29,8 @@ Project is created with:
  - Express.js
  - HTML
  - CSS
+ - Postgresql
+ - Heroku
  
 ## Launch
 Download the files and extract them in a folder.
