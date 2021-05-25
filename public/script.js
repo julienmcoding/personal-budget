@@ -39,8 +39,8 @@ fetchAllButtonEnv.addEventListener('click', () => {
       renderError(response);
     };
   })
-  .then(response => {
-    let enveloppes = response.data;
+  .then(async response => {
+    let enveloppes = await response.data;
     renderEnveloppes(enveloppes);
   });
 });
