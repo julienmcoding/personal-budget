@@ -33,6 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/julienmcoding/personal-budget.git"
   },
+  "proxy": "http://localhost:3000",
   "bugs": {
     "url": "https://github.com/julienmcoding/personal-budget/issues"
   },
