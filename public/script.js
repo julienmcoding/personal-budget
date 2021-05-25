@@ -30,17 +30,21 @@ const renderEnveloppes = (enveloppes = [{}]) => {
 };
 
 
-fetchAllButtonEnv.addEventListener('click', () => {
-  fetch('/api/enveloppes')
-  .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      renderError(response);
-    };
-  })
-  .then(response => {
-    let enveloppes = response.data;
-    renderEnveloppes(enveloppes);
-  });
+fetchAllButtonEnv.addEventListener('click', async () => {
+  try {
+    const res = await fetch('/api/enveloppes')
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        renderError(response);
+      };
+    })
+    .then(response => {
+      let enveloppes = response.data;
+      renderEnveloppes(enveloppes);
+    });
+  } catch (error) {
+    console.error(error.message);
+  };
 });
